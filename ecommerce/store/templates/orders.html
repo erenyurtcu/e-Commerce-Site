@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+</head>
+<body>
+    <h1>Your Orders</h1>
+    <ul>
+        {% for order in orders %}
+            <li>
+                Product: {{ order.product.name }} <br>
+                Quantity: {{ order.quantity }} <br>
+                Date: {{ order.order_date }}
+            </li>
+        {% empty %}
+            <li>You have no orders.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'product_list' %}">Back to Home</a>
+</body>
+</html>

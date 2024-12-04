@@ -1,23 +1,98 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
+    <title>Amazon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Static CSS -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
+
 <body>
-    <h1>Product List</h1>
-    <ul>
+    <div class="navbar">
+        <div class="nav-logo border">
+            <div class="logo"></div>
+        </div>
+
+        <div class="nav-address border">
+            <p class="add-first">Deliver to</p>
+            <div class="add-icon">
+                <i class="fa-solid fa-location-dot"></i>
+                <p class="add-sec">Türkiye</p>
+            </div>
+        </div>
+        <div class="nav-search">
+            <select class="search-select">
+                <option>All</option>
+            </select>
+            <input placeholder="Search Amazon" class="search-input">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </div>
+
+        <div class="nav-signin border">
+            {% if user.is_authenticated %}
+                <p><span>Hello, {{ user.username }}</span></p>
+                <p><a href="{% url 'user_profile' %}">Account</a></p>
+            {% else %}
+                <p><span>Hello, sign in</span></p>
+                <p><a href="{% url 'login' %}">Account</a></p>
+            {% endif %}
+        </div>
+
+        <div class="nav-return border">
+            <a href="{% url 'orders' %}"><p>Orders</p></a>
+        </div>
+        <div class="nav-cart border">
+            <i class="fa-solid fa-cart-plus"></i>
+            <a href="{% url 'cart' %}">Cart</a>
+        </div>
+    </div>
+
+    <div class="panel"></div>
+
+    <!-- hero section -->
+    <div class="hero-section">
+        <div class="hero-message">
+            <p>You are on <a href="#">amazon.com</a>. You can also shop on Amazon India for millions of products with fast local delivery.</p>
+        </div>
+    </div>
+
+    <div class="shop-section">
         {% for product in products %}
-            <li>
-                <a href="{% url 'product_detail' product.id %}">
-                    {{ product.name }} - ${{ product.price }} -
-                     {{ product.stock }} - {{ product.category }}
-                </a>
-            </li>
+        <div class="box">
+            <div class="box-content">
+                <h2>{{ product.name }}</h2>
+                <div class="box-img" style="background-image: url({% static 'image/' %}{{ product.image }});"></div>
+                <p><a href="{% url 'product_detail' product.id %}">See more</a></p>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+
+    <footer>
+        <div class="foot-panel1">Back To Top</div>
+        <div class="foot-panel3">
+            <div class="logo"></div>
+        </div>
+        <div class="foot-panel4">
+            <div class="pages">
+                <a href="#">Conditions of Use</a>
+                <a href="#">Privacy Notice</a>
+                <a href="#">Your Ads Privacy Choices</a>
+            </div>
+            <div class="copyright">
+                © 1996-2023, Amazon.com, Inc. or its affiliates
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>

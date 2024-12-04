@@ -66,3 +66,9 @@ def user_profile(request):
     orders = Order.objects.filter(user=user).select_related('product')
 
     return render(request, 'user.html', {'user': user, 'orders': orders})
+
+@login_required
+def orders_view(request):
+    user = request.user
+    orders = Order.objects.filter(user=user)
+    return render(request, 'orders.html', {'orders': orders})
