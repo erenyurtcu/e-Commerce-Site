@@ -1,42 +1,62 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
+
 <body>
-    <h1>Welcome, {{ user.username }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p><a href="{% url 'logout' %}">Logout</a></p>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-logo border">
+            <div class="logo");></div>
+        </div>
+        <div class="nav-signin border">
+            <p><span>Hello, {{ user.username }}</span></p>
+            <p><a href="{% url 'logout' %}">Logout</a></p>
+        </div>
+    </div>
 
-    <h2>Update Password</h2>
-    <form method="post" action="{% url 'password_change' %}">
-        {% csrf_token %}
-        <label for="old_password">Current Password:</label>
-        <input type="password" name="old_password" id="old_password" required>
-        <br>
-        <label for="new_password1">New Password:</label>
-        <input type="password" name="new_password1" id="new_password1" required>
-        <br>
-        <label for="new_password2">Confirm New Password:</label>
-        <input type="password" name="new_password2" id="new_password2" required>
-        <br>
-        <button type="submit">Change Password</button>
-    </form>
-
-    <a href="{% url 'cart' %}">View Cart</a>
-
-    <h2>Your Orders</h2>
-    <ul>
-        {% for order in orders %}
+    <!-- User Section -->
+    <div class="panel">
+        <h1 style="text-align: center;">Welcome, {{ user.username }}</h1>
+        <div class="user-info">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+        <h2>Your Orders</h2>
+        <ul class="order-list">
+            {% for order in orders %}
             <li>
-                Product: {{ order.product.name }} - Quantity: {{ order.quantity }} - Date: {{ order.order_date }}
+                <p><strong>Product:</strong> {{ order.product.name }}</p>
+                <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                <p><strong>Date:</strong> {{ order.order_date }}</p>
             </li>
-        {% empty %}
-            <li>You have no orders.</li>
-        {% endfor %}
-    </ul>
+            {% empty %}
+            <li>No orders yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer>
+        <div class="foot-panel1">Back To Top</div>
+        <div class="foot-panel4">
+            <div class="pages">
+                <a href="#">Conditions of Use</a>
+                <a href="#">Privacy Notice</a>
+                <a href="#">Your Ads Privacy Choices</a>
+            </div>
+            <div class="copyright">
+                © 1996-2023, Amazon.com, Inc. or its affiliates
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>
