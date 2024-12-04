@@ -11,5 +11,36 @@
     <p>Price: ${{ product.price }}</p>
     <p>Stock: {{ product.stock }}</p>
     <a href="/">Back to list</a>
+
+    <h2>Reviews</h2>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <strong>{{ review.user.username }}</strong>: {{ review.comment }} (Rating: {{ review.rating }})
+            </li>
+        {% empty %}
+            <li>No reviews yet.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+        <h3>Add a Review</h3>
+        <form method="post">
+            {% csrf_token %}
+            <label for="rating">Rating (1-5):</label>
+            <select name="rating" id="rating" required>
+                {% for i in "12345" %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="comment">Comment:</label>
+            <textarea name="comment" id="comment" required></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
+    {% endif %}
 </body>
 </html>
