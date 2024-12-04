@@ -13,7 +13,8 @@
         {% for product in products %}
             <li>
                 <a href="{% url 'product_detail' product.id %}">
-                    {{ product.name }} - ${{ product.price }}
+                    {{ product.name }} - ${{ product.price }} -
+                     {{ product.stock }} - {{ product.category }}
                 </a>
             </li>
         {% endfor %}
