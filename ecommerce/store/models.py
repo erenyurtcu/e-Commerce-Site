@@ -19,12 +19,14 @@ class Product(models.Model):
         return self.name
 
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     order_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Order {self.id} - {self.product.name}"
+
 
 class Review(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='reviews')
@@ -35,3 +37,11 @@ class Review(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name}'
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Kullanıcı bilgisi
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)  # Ürün bilgisi
+    quantity = models.PositiveIntegerField(default=1)  # Miktar
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name} ({self.quantity})"

@@ -1,7 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Review
+from .models import Product, Review, Order, Cart
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart_item, created = Cart.objects.get_or_create(user=request.user, product=product)
+    if not created:
+        cart_item.quantity += 1
+    cart_item.save()
+    return redirect('cart')
+
+@login_required
+def cart_view(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
 def product_list(request):
     products = Product.objects.all()
@@ -34,12 +50,19 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            next_url = request.POST.get('next', 'product_list')
+            next_url = request.POST.get('next') or 'product_list'
             return redirect(next_url)
         else:
             return render(request, 'login.html', {'error': 'Invalid credentials'})
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'next': request.GET.get('next', '')})
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def user_profile(request):
+    user = request.user
+    orders = Order.objects.filter(user=user).select_related('product')
+
+    return render(request, 'user.html', {'user': user, 'orders': orders})
