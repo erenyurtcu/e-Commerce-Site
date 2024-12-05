@@ -1,0 +1,39 @@
+<div class="navbar">
+    <div class="nav-logo border">
+        <a href="/"><div class="logo"></div></a>
+    </div>
+    <div class="nav-address border">
+        <p class="add-first">Deliver to</p>
+        <div class="add-icon">
+            <i class="fa-solid fa-location-dot"></i>
+            <p class="add-sec">Türkiye</p>
+        </div>
+    </div>
+    <div class="nav-search">
+        <select class="search-select">
+            <option>All</option>
+        </select>
+        <input placeholder="Search Amazon" class="search-input">
+        <div class="search-icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+
+    <div class="nav-signin border">
+        {% if user.is_authenticated %}
+            <p><span>Hello, {{ user.username }}</span></p>
+            <p><a href="{% url 'user_profile' %}">Account</a></p>
+        {% else %}
+            <p><span>Hello, sign in</span></p>
+            <p><a href="{% url 'login' %}">Account</a></p>
+        {% endif %}
+    </div>
+
+    <div class="nav-return border">
+        <a href="{% url 'orders' %}"><p>Orders</p></a>
+    </div>
+    <div class="nav-cart border">
+        <i class="fa-solid fa-cart-plus"></i>
+        <a  href="{% url 'cart' %}">Cart</a>
+    </div>
+</div>

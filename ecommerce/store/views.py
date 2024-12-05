@@ -26,7 +26,7 @@ def product_list(request):
 @login_required(login_url='/login/')  # Login gerektirir, login yapılmadıysa login sayfasına yönlendirir
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
-
+    all_products = Product.objects.exclude(id=id)
     if request.method == 'POST':
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
@@ -41,7 +41,7 @@ def product_detail(request, id):
         return redirect('product_detail', id=id)
 
     reviews = product.reviews.all()
-    return render(request, 'product_detail.html', {'product': product, 'reviews': reviews})
+    return render(request, 'product_detail.html', {'product': product, 'reviews': reviews, 'all_products': all_products})
 
 def login_view(request):
     if request.method == 'POST':

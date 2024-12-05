@@ -1,57 +1,98 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
-<body>
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.description }}</p>
-    <p>Price: ${{ product.price }}</p>
-    <p>Stock: {{ product.stock }}</p>
-    <a href="/">Back to list</a>
 
-    <h2>Reviews</h2>
-    <ul>
-        {% for review in reviews %}
+<body>
+    {% include 'partials/navbar.html' %}
+
+    <div class="product-detail-container">
+        <!-- Sol Kısım: Ürün Detayı -->
+        <div class="product-detail">
+            <div class="product-image">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <p>No image available</p>
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h1>{{ product.name }}</h1>
+                <p class="product-description">{{ product.description }}</p>
+                <p class="product-price">Price: <span>${{ product.price }}</span></p>
+                <p class="product-stock">In Stock: <span>{{ product.stock }}</span></p>
+                <a href="/" class="back-to-list">Back to list</a>
+                <h3>Add to Cart</h3>
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                </form>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login</a> to add this product to your cart.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sağ Kısım: Ürün Listesi -->
+        <div class="product-list-sidebar">
+            <h2>Other Products</h2>
+            <ul>
+                {% for item in all_products %}
+                <li>
+                    <a href="{% url 'product_detail' item.id %}">
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}" class="product-sidebar-image">
+                        <p>{{ item.name }}</p>
+                        <p>${{ item.price }}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Yorumlar Bölümü -->
+    <div class="reviews-section">
+        <h2>Reviews</h2>
+        <ul>
+            {% for review in reviews %}
             <li>
                 <strong>{{ review.user.username }}</strong>: {{ review.comment }} (Rating: {{ review.rating }})
             </li>
-        {% empty %}
+            {% empty %}
             <li>No reviews yet.</li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
 
-    {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
         <h3>Add a Review</h3>
         <form method="post">
             {% csrf_token %}
             <label for="rating">Rating (1-5):</label>
             <select name="rating" id="rating" required>
                 {% for i in "12345" %}
-                    <option value="{{ i }}">{{ i }}</option>
+                <option value="{{ i }}">{{ i }}</option>
                 {% endfor %}
             </select>
             <br>
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" required></textarea>
             <br>
-            <button type="submit">Submit</button>
+            <button type="submit" class="review-submit-btn">Submit</button>
         </form>
-    {% else %}
+        {% else %}
         <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
-    {% endif %}
-
-    <h3>Add to Cart</h3>
-    {% if user.is_authenticated %}
-        <form method="post" action="{% url 'add_to_cart' product.id %}">
-            {% csrf_token %}
-            <button type="submit">Add to Cart</button>
-        </form>
-    {% else %}
-        <p><a href="{% url 'login' %}">Login</a> to add this product to your cart.</p>
-    {% endif %}
+        {% endif %}
+    </div>
 </body>
+
 </html>

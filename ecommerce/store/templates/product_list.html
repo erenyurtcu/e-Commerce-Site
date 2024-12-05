@@ -15,49 +15,8 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="nav-logo border">
-            <div class="logo"></div>
-        </div>
-
-        <div class="nav-address border">
-            <p class="add-first">Deliver to</p>
-            <div class="add-icon">
-                <i class="fa-solid fa-location-dot"></i>
-                <p class="add-sec">Türkiye</p>
-            </div>
-        </div>
-        <div class="nav-search">
-            <select class="search-select">
-                <option>All</option>
-            </select>
-            <input placeholder="Search Amazon" class="search-input">
-            <div class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-        </div>
-
-        <div class="nav-signin border">
-            {% if user.is_authenticated %}
-                <p><span>Hello, {{ user.username }}</span></p>
-                <p><a href="{% url 'user_profile' %}">Account</a></p>
-            {% else %}
-                <p><span>Hello, sign in</span></p>
-                <p><a href="{% url 'login' %}">Account</a></p>
-            {% endif %}
-        </div>
-
-        <div class="nav-return border">
-            <a href="{% url 'orders' %}"><p>Orders</p></a>
-        </div>
-        <div class="nav-cart border">
-            <i class="fa-solid fa-cart-plus"></i>
-            <a href="{% url 'cart' %}">Cart</a>
-        </div>
-    </div>
-
+    {% include 'partials/navbar.html' %}
     <div class="panel"></div>
-
     <!-- hero section -->
     <div class="hero-section">
         <div class="hero-message">
@@ -70,12 +29,20 @@
         <div class="box">
             <div class="box-content">
                 <h2>{{ product.name }}</h2>
-                <div class="box-img" style="background-image: url({% static 'image/' %}{{ product.image }});"></div>
+                {% if product.image %}
+                <div class="box-img" style="background-image: url('{{ product.image.url }}');"></div>
+                {% else %}
+
+                <div class="box-img" style="background-image: url('images/default_product.jpg');"></div>
+                <img src="{% static 'images/default_product.jpg' %}" alt="No Image" class="product-sidebar-image">
+                {% endif %}
+                <!-- Product Details -->
                 <p><a href="{% url 'product_detail' product.id %}">See more</a></p>
             </div>
         </div>
         {% endfor %}
     </div>
+
 
     <footer>
         <div class="foot-panel1">Back To Top</div>
