@@ -5,20 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Orders</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1>Your Orders</h1>
-    <ul>
-        {% for order in orders %}
-            <li>
-                Product: {{ order.product.name }} <br>
-                Quantity: {{ order.quantity }} <br>
-                Date: {{ order.order_date }}
-            </li>
-        {% empty %}
-            <li>You have no orders.</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'product_list' %}">Back to Home</a>
+    {% include 'partials/navbar.html' %}
+    <div class="orders-container" style="max-width: 800px; margin: 20px auto; padding: 20px; background-color: #f5f5f5; border-radius: 8px;">
+        <h1 style="font-size: 2rem; color: #007185; text-align: center; margin-bottom: 20px;">Your Orders</h1>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            {% for order in orders %}
+                <li style="background-color: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+                    <span style="font-weight: bold; color: #005f6a;">Product:</span> {{ order.product.name }} <br>
+                    <span style="font-weight: bold; color: #005f6a;">Quantity:</span> {{ order.quantity }} <br>
+                    <span style="font-weight: bold; color: #005f6a;">Date:</span> {{ order.order_date }}
+                </li>
+            {% empty %}
+                <li style="text-align: center; color: #888; font-style: italic;">You have no orders.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'product_list' %}" style="display: block; text-align: center; margin: 20px auto; padding: 10px 20px; background-color: #ffa41c; color: white; text-decoration: none; font-weight: bold; border-radius: 4px; max-width: 200px; transition: background-color 0.3s ease, transform 0.2s ease;">
+            Back to Home
+        </a>
+    </div>
 </body>
 </html>

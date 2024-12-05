@@ -13,61 +13,63 @@
 </head>
 
 <body>
-<div class="navbar">
-    <div class="nav-logo border">
-        <a href="/"><div class="logo"></div></a>
-    </div>
-    <div class="nav-address border">
-        <p class="add-first">Deliver to</p>
-        <div class="add-icon">
-            <i class="fa-solid fa-location-dot"></i>
-            <p class="add-sec">Türkiye</p>
-        </div>
-    </div>
-    <div class="nav-search">
-        <select class="search-select">
-            <option>All</option>
-        </select>
-        <input placeholder="Search Amazon" class="search-input">
-        <div class="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-    </div>
-
-    <div class="nav-signin border">
-        {% if user.is_authenticated %}
-            <p><span>Hello, {{ user.username }}</span></p>
-            <p><a href="{% url 'user_profile' %}">Account</a></p>
-        {% else %}
-            <p><span>Hello, sign in</span></p>
-            <p><a href="{% url 'login' %}">Account</a></p>
-        {% endif %}
-    </div>
-
-    <div class="nav-return border">
-        <a href="{% url 'orders' %}"><p>Orders</p></a>
-    </div>
-    <div class="nav-cart border">
-        <i class="fa-solid fa-cart-plus"></i>
-        <a href="{% url 'cart' %}">Cart</a>
-    </div>
-</div>
     <!-- Navbar -->
     <div class="navbar">
         <div class="nav-logo border">
-            <div class="logo");></div>
+            <a href="/"><div class="logo"></div></a>
         </div>
+        <div class="nav-address border">
+            <p class="add-first">Deliver to</p>
+            <div class="add-icon">
+                <i class="fa-solid fa-location-dot"></i>
+                <p class="add-sec">Türkiye</p>
+            </div>
+        </div>
+        <div class="nav-search">
+            <select class="search-select">
+                <option>All</option>
+            </select>
+            <input placeholder="Search Amazon" class="search-input">
+            <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </div>
+
         <div class="nav-signin border">
-            <p><span>Hello, {{ user.username }}</span></p>
-            <p><a href="{% url 'logout' %}">Logout</a></p>
+            {% if user.is_authenticated %}
+                <p><span>Hello, {{ user.username }}</span></p>
+                <p><a href="{% url 'user_profile' %}">Account</a></p>
+            {% else %}
+                <p><span>Hello, sign in</span></p>
+                <p><a href="{% url 'login' %}">Account</a></p>
+            {% endif %}
+        </div>
+
+        <div class="nav-return border">
+            <a href="{% url 'orders' %}"><p>Orders</p></a>
+        </div>
+        <div class="nav-cart border">
+            <i class="fa-solid fa-cart-plus"></i>
+            <a href="{% url 'cart' %}">Cart</a>
         </div>
     </div>
-    <!-- User Section -->
-    <div class="panel">
-        <h1 style="text-align: center;">Welcome, {{ user.username }}</h1>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1 class="welcome-message">Welcome, {{ user.username }}</h1>
+
+        <!-- User Info Section -->
         <div class="user-info">
             <p><strong>Email:</strong> {{ user.email }}</p>
         </div>
+
+        <!-- Password Change Section -->
+        <div class="password-change">
+            <h2>Update Your Password</h2>
+            <a href="{% url 'password_change' %}" class="password-change-btn">Change Password</a>
+        </div>
+
+        <!-- Orders Section -->
         <h2>Your Orders</h2>
         <ul class="order-list">
             {% for order in orders %}
@@ -82,6 +84,7 @@
         </ul>
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="foot-panel1">Back To Top</div>
         <div class="foot-panel4">
