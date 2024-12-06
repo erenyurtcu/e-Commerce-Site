@@ -72,3 +72,15 @@ def orders_view(request):
     user = request.user
     orders = Order.objects.filter(user=user)
     return render(request, 'orders.html', {'orders': orders})
+
+@login_required
+def remove_from_cart(request, item_id):
+    # CartItem modeline göre öğeyi al veya 404 döndür
+    cart_item = get_object_or_404(Cart, id=item_id, user=request.user)
+    cart_item.delete()  # Öğeyi kaldır
+    return redirect('cart')  # Sepet sayfasına geri dön
+
+@login_required
+def checkout(request):
+    # Ödeme işlemleri ve detaylar burada işlenebilir
+    return render(request, 'checkout.html')
