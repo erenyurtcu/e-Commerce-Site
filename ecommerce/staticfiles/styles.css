@@ -71,13 +71,121 @@
     border-radius: 4px;
 }
 
-.search-select {
-    background-color: #f3f3f3;
-    text-align: center;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border: none;
+/* Genel nav-search düzeni */
+.nav-search {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Özel Select */
+.custom-select {
+    position: relative;
+    width: 200px;
+    margin-right: 8px;
+}
+
+.custom-select-trigger {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-select-trigger:hover {
+    border-color: #007bff;
+}
+
+.custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1000;
+}
+
+.custom-option {
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-option:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.custom-option.selected {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.custom-select.open .custom-options {
+    display: block;
+}
+
+/* Arama Kutusu */
+.search-input {
+    flex: 2;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    margin-right: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:hover {
+    border-color: #007bff;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Arama İkonu */
+.search-icon {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.search-icon:hover {
+    background-color: #0056b3;
+}
+
+.search-icon i {
+    font-size: 16px;
+}
+
 
 .search-input {
     width: 100%;

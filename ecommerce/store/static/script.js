@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search');
-
     if (searchInput) {
         searchInput.addEventListener('keydown', function(event) {
-            console.log("Key pressed:", event.key);  // Debug: tuşun adı console'a yazdırılacak
+            console.log("Key pressed:", event.key);
             if (event.key === 'Enter') {
-                event.preventDefault();  // Formun submit olmasını engeller
+                event.preventDefault();
                 searchProducts();
             }
         });
     }
 });
-
 function searchProducts() {
     const query = document.getElementById('search').value;
     const category = document.getElementById('category').value;
@@ -20,7 +18,6 @@ function searchProducts() {
     if (category) {
         url += '&category=' + encodeURIComponent(category);
     }
-
-    console.log("Redirecting to:", url);  // Debug: yönlendirme yapılacak URL'yi console'a yazdır
-    window.location.href = url; // URL'yi güncelleyerek arama sonuçlarını göster
+    console.log("Redirecting to:", url);
+    window.location.href = url;
 }
