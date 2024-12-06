@@ -1,3 +1,5 @@
+{% load static %}
+<script src="{% static 'script.js' %}"></script>
 <div class="navbar">
     <div class="nav-logo border">
         <a href="/"><div class="logo"></div></a>
@@ -10,14 +12,22 @@
         </div>
     </div>
     <div class="nav-search">
-        <select class="search-select">
-            <option>All</option>
+        <select class="search-select" id="category" name="category">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
         </select>
-        <input placeholder="Search Amazon" class="search-input">
-        <div class="search-icon">
+        <input type="text" class="search-input" id="search" name="search" placeholder="Search Amazon" value="{{ query }}">
+        <div class="search-icon" onclick="searchProducts()">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </div>
+
+
+
 
     <div class="nav-signin border">
         {% if user.is_authenticated %}
