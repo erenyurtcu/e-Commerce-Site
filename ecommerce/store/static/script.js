@@ -21,3 +21,16 @@ function searchProducts() {
     console.log("Redirecting to:", url);
     window.location.href = url;
 }
+
+
+function smoothScrollToTop(triggerId) {
+    const triggerElement = document.getElementById(triggerId);
+    if (triggerElement) {
+        triggerElement.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scroll effect
+            });
+        });
+    }
+}

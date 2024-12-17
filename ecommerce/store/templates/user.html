@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="https://www.amazon.com/favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
@@ -69,6 +70,14 @@
             <a href="{% url 'password_change' %}" class="password-change-btn">Change Password</a>
         </div>
 
+        <!-- Logout Section -->
+        <div class="logout-section">
+            <h2>Logout</h2>
+            <p>To log out from your account, click the button below:</p>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        </div>
+
+
         <!-- Orders Section -->
         <h2>Your Orders</h2>
         <ul class="order-list">
@@ -86,7 +95,9 @@
 
     <!-- Footer -->
     <footer>
-        <div class="foot-panel1">Back To Top</div>
+        <div class="foot-panel1">
+            <a href="#" class="back-to-top">Back To Top</a>
+        </div>
         <div class="foot-panel4">
             <div class="pages">
                 <a href="#">Conditions of Use</a>

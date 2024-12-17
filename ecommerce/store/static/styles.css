@@ -352,6 +352,22 @@ ul {
     cursor: pointer;
 }
 
+.foot-panel1 span {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.foot-panel1 span:hover {
+    text-decoration: underline;
+}
+
+
+html {
+    scroll-behavior: smooth; /* Sayfa kaydırmasını yumuşak yapar */
+}
+
+
 .foot-panel4 {
     background-color: #0f1111;
     color: white;
@@ -856,3 +872,30 @@ form button[type="submit"]:hover {
 .cart-summary .checkout-btn:hover {
     background-color: #cc8500;
 }
+
+.logout-section {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    text-align: center; /* İçeriği ortala */
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007185;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #005f6a;
+}
+
