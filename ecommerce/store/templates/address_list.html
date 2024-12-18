@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Address List</title>
+</head>
+<body>
+    <h1>Your Addresses</h1>
+
+    <a href="{% url 'add_address' %}">Add New Address</a>
+    <ul>
+        {% for address in addresses %}
+            <li>
+                <p><strong>Street:</strong> {{ address.street }}</p>
+                <p><strong>City:</strong> {{ address.city }}</p>
+                <p><strong>State:</strong> {{ address.state|default:"N/A" }}</p>
+                <p><strong>Postal Code:</strong> {{ address.postal_code }}</p>
+                <p><strong>Country:</strong> {{ address.country }}</p>
+                {% if address.is_default %}
+                    <p><em>Default Address</em></p>
+                {% endif %}
+                <a href="{% url 'edit_address' address.id %}">Edit</a> |
+                <a href="{% url 'delete_address' address.id %}">Delete</a>
+            </li>
+        {% empty %}
+            <li>No addresses found. <a href="{% url 'add_address' %}">Add one now</a>.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

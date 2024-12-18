@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Address</title>
+</head>
+<body>
+    <h1>Add New Address</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="street">Street:</label>
+        <input type="text" name="street" id="street" required>
+
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city" required>
+
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state">
+
+        <label for="postal_code">Postal Code:</label>
+        <input type="text" name="postal_code" id="postal_code" required>
+
+        <label for="country">Country:</label>
+        <input type="text" name="country" id="country" required>
+
+        <label for="is_default">Set as Default:</label>
+        <input type="checkbox" name="is_default" id="is_default">
+
+        <button type="submit">Save Address</button>
+    </form>
+</body>
+</html>

@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Review, Order, Cart, Category
+from .models import Product, Review, Order, Cart, Category, Card, Address
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseBadRequest
 
 
 # Arama ve kategori filtreleme işlemi yapan ortak fonksiyon
@@ -120,3 +121,131 @@ def checkout(request):
         )
     cart_items.delete()
     return render(request, 'checkout.html', {'message': 'Your order has been placed successfully!'})
+
+
+@login_required
+def add_address(request):
+    """Yeni bir adres ekleme."""
+    if request.method == 'POST':
+        street = request.POST.get('street')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        postal_code = request.POST.get('postal_code')
+        country = request.POST.get('country')
+        is_default = request.POST.get('is_default') == 'on'
+
+        if street and city and postal_code and country:
+            # Eğer yeni adres default olarak işaretlenmişse, diğer adresleri default olmaktan çıkar
+            if is_default:
+                Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+
+            Address.objects.create(
+                user=request.user,
+                street=street,
+                city=city,
+                state=state,
+                postal_code=postal_code,
+                country=country,
+                is_default=is_default
+            )
+            return redirect('address_list')
+        else:
+            return HttpResponseBadRequest("All required fields must be provided.")
+
+    return render(request, 'add_address.html')
+
+
+@login_required
+def edit_address(request, address_id):
+    """Mevcut bir adresi düzenleme."""
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+
+    if request.method == 'POST':
+        address.street = request.POST.get('street', address.street)
+        address.city = request.POST.get('city', address.city)
+        address.state = request.POST.get('state', address.state)
+        address.postal_code = request.POST.get('postal_code', address.postal_code)
+        address.country = request.POST.get('country', address.country)
+        is_default = request.POST.get('is_default') == 'on'
+
+        # Eğer bu adres default olarak işaretlenmişse, diğer adresleri default olmaktan çıkar
+        if is_default:
+            Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+
+        address.is_default = is_default
+        address.save()
+        return redirect('address_list')
+
+    return render(request, 'edit_address.html', {'address': address})
+
+
+@login_required
+def add_card(request):
+    """Yeni bir kart ekleme."""
+    if request.method == 'POST':
+        card_number = request.POST.get('card_number')
+        cardholder_name = request.POST.get('cardholder_name')
+        expiry_date = request.POST.get('expiry_date')
+        cvv = request.POST.get('cvv')
+        is_default = request.POST.get('is_default') == 'on'
+
+        if card_number and cardholder_name and expiry_date and cvv:
+            Card.objects.create(
+                user=request.user,
+                card_number=card_number,
+                cardholder_name=cardholder_name,
+                expiry_date=expiry_date,
+                cvv=cvv,
+                is_default=is_default
+            )
+            return redirect('card_list')
+        else:
+            return HttpResponseBadRequest("All required fields must be provided.")
+
+    return render(request, 'add_card.html')
+
+
+@login_required
+def edit_card(request, card_id):
+    """Mevcut bir kartı düzenleme."""
+    card = get_object_or_404(Card, id=card_id, user=request.user)
+
+    if request.method == 'POST':
+        card.card_number = request.POST.get('card_number', card.card_number)
+        card.cardholder_name = request.POST.get('cardholder_name', card.cardholder_name)
+        card.expiry_date = request.POST.get('expiry_date', card.expiry_date)
+        card.cvv = request.POST.get('cvv', card.cvv)
+        card.is_default = request.POST.get('is_default') == 'on'
+        card.save()
+        return redirect('card_list')
+
+    return render(request, 'edit_card.html', {'card': card})
+
+
+@login_required
+def delete_address(request, address_id):
+    """Mevcut bir adresi silme."""
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+    address.delete()
+    return redirect('address_list')
+
+@login_required
+def delete_card(request, card_id):
+    """Mevcut bir kartı silme."""
+    card = get_object_or_404(Card, id=card_id, user=request.user)
+    card.delete()
+    return redirect('card_list')
+
+@login_required
+def address_list(request):
+    """Kullanıcının tüm adreslerini listeleme."""
+    addresses = Address.objects.filter(user=request.user)
+    categories = Category.objects.all()
+    return render(request, 'address_list.html', {'addresses': addresses, 'categories': categories})
+
+@login_required
+def card_list(request):
+    """Kullanıcının tüm kartlarını listeleme."""
+    cards = Card.objects.filter(user=request.user)
+    categories = Category.objects.all()
+    return render(request, 'card_list.html', {'cards': cards, 'categories': categories})

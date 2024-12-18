@@ -91,6 +91,46 @@
             <li>No orders yet.</li>
             {% endfor %}
         </ul>
+
+        <!-- Addresses Section -->
+        <h2>Your Addresses</h2>
+        <ul class="address-list">
+            {% for address in addresses %}
+            <li>
+                <p><strong>Street:</strong> {{ address.street }}</p>
+                <p><strong>City:</strong> {{ address.city }}</p>
+                <p><strong>State:</strong> {{ address.state }}</p>
+                <p><strong>Postal Code:</strong> {{ address.postal_code }}</p>
+                <p><strong>Country:</strong> {{ address.country }}</p>
+                {% if address.is_default %}
+                <p><em>(Default Address)</em></p>
+                {% endif %}
+                <a href="{% url 'edit_address' address.id %}" class="edit-btn">Edit</a>
+                <a href="{% url 'delete_address' address.id %}" class="delete-btn">Delete</a>
+            </li>
+            {% empty %}
+            <li>No addresses added yet. <a href="{% url 'add_address' %}">Add Address</a></li>
+            {% endfor %}
+        </ul>
+
+        <!-- Cards Section -->
+        <h2>Your Payment Methods</h2>
+        <ul class="card-list">
+            {% for card in cards %}
+            <li>
+                <p><strong>Cardholder Name:</strong> {{ card.cardholder_name }}</p>
+                <p><strong>Card Number:</strong> **** **** **** {{ card.card_number|slice:"-4" }}</p>
+                <p><strong>Expiry Date:</strong> {{ card.expiry_date }}</p>
+                {% if card.is_default %}
+                <p><em>(Default Card)</em></p>
+                {% endif %}
+                <a href="{% url 'edit_card' card.id %}" class="edit-btn">Edit</a>
+                <a href="{% url 'delete_card' card.id %}" class="delete-btn">Delete</a>
+            </li>
+            {% empty %}
+            <li>No cards added yet. <a href="{% url 'add_card' %}">Add Card</a></li>
+            {% endfor %}
+        </ul>
     </div>
 
     <!-- Footer -->
