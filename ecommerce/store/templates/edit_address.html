@@ -7,7 +7,25 @@
     <h1>Edit Address</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <label for="street">Street:</label>
+        <input type="text" name="street" id="street" value="{{ address.street }}" required>
+
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city" value="{{ address.city }}" required>
+
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state" value="{{ address.state }}" >
+
+        <label for="postal_code">Postal Code:</label>
+        <input type="text" name="postal_code" id="postal_code" value="{{ address.postal_code }}" required>
+
+        <label for="country">Country:</label>
+        <input type="text" name="country" id="country" value="{{ address.country }}" required>
+
+        <label for="is_default">Set as Default:</label>
+        <input type="checkbox" name="is_default" id="is_default" {% if address.is_default %}checked{% endif %}>
+
         <button type="submit">Save Changes</button>
     </form>
 </body>
